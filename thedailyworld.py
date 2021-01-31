@@ -26,35 +26,35 @@ a {
 
 print('Gathering headlines...')
 
-fontSize = 40
+# establish biggest font size
+fontSize = 35
 for country in countries:
     fontSize = fontSize - .5
     googlenews.search(country)
     title, link = googlenews.result()[0]['title'], googlenews.result()[0]['link']
+    # filter articles with "opinion" in the title
+    if "opinion" in title or "Opinion" in title:
+        title, link = googlenews.result()[1]['title'], googlenews.result()[1]['link']
+    # if title is missing, manually get article title from link
     if len(title) == 0:
         try:
             res = requests.get(link)
             res.raise_for_status()
             noStarchSoup = bs4.BeautifulSoup(res.text, 'html.parser')
             headline = noStarchSoup.select('body h1')
-            title = country + ": " + headline[0].getText().strip()
+            title = headline[0].getText().strip()
         except:
-            title = country + ": No Title"
-    title = title.split()
-    newTitle = ''
-    for word in title:
-        if word == country:
-            word = f"<span style='color: #E7E375'>{word}</span> "
-            newTitle += word
-        else:
-            newTitle += word + ' '
-    title = newTitle
+            title = "No Title"
+    title = "<span style='color: #E7E375'>" + country + "</span>: " + title
+    # if no link
     if len(link) == 0:
         link = 'No Link'
+    # add divider below organizations
     if countries.index(country) == 8:
         playFile.write(("<h1 style='font-size: {2}px;'><a href={1}>{0}</a></h1><br><hr>").format(title, link, fontSize))
     else:
         playFile.write(("<h1 style='font-size: {2}px;'><a href={1}>{0}</a></h1>").format(title, link, fontSize))
+    # clear and print progress
     googlenews.clear()
     os.system('clear')
     print(f"{countries.index(country)}/{len(countries)}")
