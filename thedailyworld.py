@@ -4,7 +4,7 @@ import os, sys
 
 googlenews = GoogleNews('en')
 
-countries = ['United Nations', 'World Trade Organization', 'International Monetary Fund', 'World Bank', 'European Union', 'World Health Organization', 'National Endowment for Democracy', 'USAID', 'NATO', 'China', 'India', 'U.S.', 'Indonesia', 'Pakistan', 'Brazil', 'Nigeria', 'Bangladesh', 'Russia', 'Mexico', 'Japan', 'Ethiopia', 'Philippines', 'Egypt', 'Vietnam', 'DR Congo', 'Germany', 'Turkey', 'Iran', 'Thailand', 'U.K.', 'France', 'Italy', 'South Africa', 'Tanzania']
+countries = ['United Nations', 'World Trade Organization', 'International Monetary Fund', 'World Bank', 'European Union', 'World Health Organization', 'National Endowment for Democracy', 'USAID', 'NATO', 'China', 'India', 'U.S.', 'Indonesia', 'Pakistan', 'Brazil', 'Nigeria', 'Bangladesh', 'Russia', 'Mexico', 'Japan', 'Ethiopia', 'Philippines', 'Egypt', 'Vietnam', 'DR Congo', 'Germany', 'Turkey', 'Iran', 'Thailand', 'U.K.', 'France', 'Italy', 'South Africa', 'Tanzania', 'South Africa', 'Myanmar', 'Kenya', 'South Korea', 'Colombia', 'Spain']
 
 playFile = open('thedailyworld.html', 'w')
 
@@ -28,6 +28,7 @@ print('Gathering headlines...')
 
 # establish biggest font size
 fontSize = 35
+# loop through countries
 for country in countries:
     fontSize = fontSize - .5
     googlenews.search(country)
@@ -58,7 +59,6 @@ for country in countries:
     googlenews.clear()
     os.system('clear')
     print(f"{countries.index(country)}/{len(countries)}")
-
 playFile.close()
 print('Done.')
 os.system("open -a 'Google Chrome' thedailyworld.html")
