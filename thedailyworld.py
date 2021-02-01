@@ -1,10 +1,13 @@
 from GoogleNews import GoogleNews
 import requests, bs4
-import os, sys
+import os
+from selenium import webdriver
+    
+driver = webdriver.Chrome()
 
 googlenews = GoogleNews('en')
 
-countries = ['United Nations', 'World Trade Organization', 'International Monetary Fund', 'World Bank', 'European Union', 'World Health Organization', 'National Endowment for Democracy', 'USAID', 'NATO', 'China', 'India', 'U.S.', 'Indonesia', 'Pakistan', 'Brazil', 'Nigeria', 'Bangladesh', 'Russia', 'Mexico', 'Japan', 'Ethiopia', 'Philippines', 'Egypt', 'Vietnam', 'DR Congo', 'Germany', 'Turkey', 'Iran', 'Thailand', 'U.K.', 'France', 'Italy', 'South Africa', 'Tanzania', 'South Africa', 'Myanmar', 'Kenya', 'South Korea', 'Colombia', 'Spain']
+countries = ['United Nations', 'World Trade Organization', 'International Monetary Fund', 'World Bank', 'European Union', 'World Health Organization', 'National Endowment for Democracy', 'USAID', 'NATO', 'China', 'India', 'U.S.', 'Indonesia', 'Pakistan', 'Brazil', 'Nigeria', 'Bangladesh', 'Russia', 'Mexico', 'Japan', 'Ethiopia', 'Philippines', 'Egypt', 'Vietnam', 'DR Congo', 'Germany', 'Turkey', 'Iran', 'Thailand', 'U.K.', 'France', 'Italy', 'South Africa', 'Tanzania', 'Myanmar', 'Kenya', 'South Korea', 'Colombia', 'Spain']
 
 playFile = open('thedailyworld.html', 'w')
 
@@ -24,12 +27,16 @@ a {
 
 </style>''')
 
+playFile.flush()
+
 print('Gathering headlines...')
 
 # establish biggest font size
 fontSize = 35
 # loop through countries
 for country in countries:
+    if country == 'World Bank':
+        driver.get('file:///Users/David/thedailyworld.html')
     fontSize = fontSize - .5
     googlenews.search(country)
     title, link = googlenews.result()[0]['title'], googlenews.result()[0]['link']
@@ -58,7 +65,9 @@ for country in countries:
     # clear and print progress
     googlenews.clear()
     os.system('clear')
+    if countries.index(country) % 5 == 0: 
+        playFile.flush()
+        driver.refresh()
     print(f"{countries.index(country)}/{len(countries)}")
 playFile.close()
 print('Done.')
-os.system("open -a 'Google Chrome' thedailyworld.html")
