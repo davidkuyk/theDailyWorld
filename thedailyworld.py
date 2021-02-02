@@ -59,9 +59,9 @@ for country in countries:
         link = 'No Link'
     # add divider below organizations
     if countries.index(country) == 8:
-        playFile.write(("<h1 style='font-size: {2}px;'><a href={1}>{0}</a></h1><br><hr>").format(title, link, fontSize))
+        playFile.write(("<h1 style='font-size: {2}px;'><a href={1} target='_blank'>{0}</a></h1><br><hr>").format(title, link, fontSize))
     else:
-        playFile.write(("<h1 style='font-size: {2}px;'><a href={1}>{0}</a></h1>").format(title, link, fontSize))
+        playFile.write(("<h1 style='font-size: {2}px;'><a href={1} target='_blank'>{0}</a></h1>").format(title, link, fontSize))
     # clear and print progress
     googlenews.clear()
     os.system('clear')
