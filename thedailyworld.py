@@ -9,7 +9,9 @@ googlenews = GoogleNews('en')
 
 countries = ['United Nations', 'World Trade Organization', 'International Monetary Fund', 'World Bank', 'European Union', 'World Health Organization', 'National Endowment for Democracy', 'USAID', 'NATO', 'China', 'India', 'U.S.', 'Indonesia', 'Pakistan', 'Brazil', 'Nigeria', 'Bangladesh', 'Russia', 'Mexico', 'Japan', 'Ethiopia', 'Philippines', 'Egypt', 'Vietnam', 'DR Congo', 'Germany', 'Turkey', 'Iran', 'Thailand', 'U.K.', 'France', 'Italy', 'South Africa', 'Tanzania', 'Myanmar', 'Kenya', 'South Korea', 'Colombia', 'Spain']
 
-playFile = open('thedailyworld.html', 'w')
+path = '/thedailyworld.html' 
+
+playFile = open('.' + path, 'w')
 
 playFile.write('''<style>
 html {
@@ -36,7 +38,7 @@ fontSize = 35
 # loop through countries
 for country in countries:
     if country == 'World Bank':
-        driver.get('file:///Users/David/thedailyworld.html')
+        driver.get('file://' + os.getcwd() + path)
     fontSize = fontSize - .5
     googlenews.search(country)
     title, link = googlenews.result()[0]['title'], googlenews.result()[0]['link']
