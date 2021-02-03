@@ -9,7 +9,7 @@ googlenews = GoogleNews('en')
 
 countries = ['United Nations', 'World Trade Organization', 'International Monetary Fund', 'World Bank', 'European Union', 'World Health Organization', 'National Endowment for Democracy', 'USAID', 'NATO', 'China', 'India', 'United States', 'Indonesia', 'Pakistan', 'Brazil', 'Nigeria', 'Bangladesh', 'Russia', 'Mexico', 'Japan', 'Ethiopia', 'Philippines', 'Egypt', 'Vietnam', 'Democratic Republic of Congo', 'Germany', 'Turkey', 'Iran', 'Thailand', 'United Kingdom', 'France', 'Italy', 'South Africa', 'Tanzania', 'Myanmar', 'Kenya', 'South Korea', 'Colombia', 'Spain']
 
-abbreviations = ['UN, WTO, IMF, World Bank, EU, WHO, NED, USAID, NATO', 'China', 'India', 'U.S.', 'Indonesia', 'Pakistan', 'Brazil', 'Nigeria', 'Bangladesh', 'Russia', 'Mexico', 'Japan', 'Ethiopia', 'Philippines', 'Egypt', 'Vietnam', 'DR Congo', 'Germany', 'Turkey', 'Iran', 'Thailand', 'U.K.', 'France', 'Italy', 'South Africa', 'Tanzania', 'Myanmar', 'Kenya', 'South Korea', 'Colombia', 'Spain']
+abbreviations = ['UN', 'WTO', 'IMF', 'World Bank', 'EU', 'WHO', 'NED', 'USAID', 'NATO', 'China', 'India', 'U.S.', 'Indonesia', 'Pakistan', 'Brazil', 'Nigeria', 'Bangladesh', 'Russia', 'Mexico', 'Japan', 'Ethiopia', 'Philippines', 'Egypt', 'Vietnam', 'DR Congo', 'Germany', 'Turkey', 'Iran', 'Thailand', 'U.K.', 'France', 'Italy', 'South Africa', 'Tanzania', 'Myanmar', 'Kenya', 'South Korea', 'Colombia', 'Spain']
 
 playFile = open(path, 'w')
 
@@ -35,8 +35,10 @@ playFile.flush()
 print('Gathering headlines...')
 
 # loop through countries
-for country in countries:
-    googlenews.search(country)
+for i in range(len(countries)):
+    if i == 5:
+        driver.get('file://' + path)
+    googlenews.search(countries[i])
     title, link = googlenews.result()[0]['title'], googlenews.result()[0]['link']
     # filter articles with "opinion" in the title
     if "opinion" in title or "Opinion" in title:
@@ -51,21 +53,21 @@ for country in countries:
             title = headline[0].getText().strip()
         except:
             title = "No Title"
-    title = "<span style='color: #E7E375'>" + country + "</span>: " + title
+    title = "<span style='color: #E7E375'>" + abbreviations[i] + "</span>: " + title
     # if no link
     if len(link) == 0:
         link = 'No Link'
     # add divider below organizations
-    if countries.index(country) == 8:
+    if i == 8:
         playFile.write(("<h1><a href={1} target='_blank'>{0}</a></h1><br><hr>").format(title, link))
     else:
         playFile.write(("<h1><a href={1} target='_blank'>{0}</a></h1>").format(title, link))
     # clear and print progress
     googlenews.clear()
     os.system('clear')
-    if countries.index(country) % 5 == 0: 
+    if i % 5 == 0: 
         playFile.flush()
         driver.refresh()
-    print(f"{countries.index(country)}/{len(countries)}")
+    print(f"{i}/{len(countries)}")
 playFile.close()
 print('Done.')
