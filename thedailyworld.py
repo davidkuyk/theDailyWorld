@@ -28,6 +28,33 @@ a {
     text-decoration: none;
 }
 
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  font-size: 16px;
+  visibility: hidden;
+  width: 200px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  top: -5px;
+  left: 105%;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
 </style>''')
 
 playFile.flush()
@@ -53,15 +80,17 @@ for i in range(len(countries)):
             title = headline[0].getText().strip()
         except:
             title = "No Title"
-    title = "<span style='color: #E7E375'>" + abbreviations[i] + "</span>: " + title
+    entityName = "<span style='color: #E7E375'>" + abbreviations[i] + "</span>: "
     # if no link
     if len(link) == 0:
         link = 'No Link'
     # add divider below organizations
-    if i == 8:
-        playFile.write(("<h1><a href={1} target='_blank'>{0}</a></h1><br><hr>").format(title, link))
+    if i < 8:
+        playFile.write(("<h1><a href={2} target='_blank'><div class='tooltip'><span class='tooltiptext'>{3}</span>{0}</div> {1}</a></h1>").format(entityName, title, link, countries[i]))
+    elif i == 8:
+        playFile.write(("<h1><a href={2} target='_blank'><div class='tooltip'><span class='tooltiptext'>{3}</span>{0}</div> {1}</a></h1><hr>").format(entityName, title, link, countries[i]))
     else:
-        playFile.write(("<h1><a href={1} target='_blank'>{0}</a></h1>").format(title, link))
+        playFile.write(("<h1><a href={2} target='_blank'>{0}{1}</a></h1>").format(entityName, title, link))
     # clear and print progress
     googlenews.clear()
     os.system('clear')
