@@ -7,7 +7,9 @@ driver = webdriver.Chrome()
 path = os.path.dirname(os.path.realpath(__file__)) + '/thedailyworld.html'
 googlenews = GoogleNews('en')
 
-countries = ['United Nations', 'World Trade Organization', 'International Monetary Fund', 'World Bank', 'European Union', 'World Health Organization', 'National Endowment for Democracy', 'USAID', 'NATO', 'China', 'India', 'U.S.', 'Indonesia', 'Pakistan', 'Brazil', 'Nigeria', 'Bangladesh', 'Russia', 'Mexico', 'Japan', 'Ethiopia', 'Philippines', 'Egypt', 'Vietnam', 'DR Congo', 'Germany', 'Turkey', 'Iran', 'Thailand', 'U.K.', 'France', 'Italy', 'South Africa', 'Tanzania', 'Myanmar', 'Kenya', 'South Korea', 'Colombia', 'Spain']
+countries = ['United Nations', 'World Trade Organization', 'International Monetary Fund', 'World Bank', 'European Union', 'World Health Organization', 'National Endowment for Democracy', 'USAID', 'NATO', 'China', 'India', 'United States', 'Indonesia', 'Pakistan', 'Brazil', 'Nigeria', 'Bangladesh', 'Russia', 'Mexico', 'Japan', 'Ethiopia', 'Philippines', 'Egypt', 'Vietnam', 'Democratic Republic of Congo', 'Germany', 'Turkey', 'Iran', 'Thailand', 'United Kingdom', 'France', 'Italy', 'South Africa', 'Tanzania', 'Myanmar', 'Kenya', 'South Korea', 'Colombia', 'Spain']
+
+abbreviations = ['UN, WTO, IMF, World Bank, EU, WHO, NED, USAID, NATO', 'China', 'India', 'U.S.', 'Indonesia', 'Pakistan', 'Brazil', 'Nigeria', 'Bangladesh', 'Russia', 'Mexico', 'Japan', 'Ethiopia', 'Philippines', 'Egypt', 'Vietnam', 'DR Congo', 'Germany', 'Turkey', 'Iran', 'Thailand', 'U.K.', 'France', 'Italy', 'South Africa', 'Tanzania', 'Myanmar', 'Kenya', 'South Korea', 'Colombia', 'Spain']
 
 playFile = open(path, 'w')
 
@@ -18,6 +20,7 @@ html {
 
 h1 {
     margin: 10px;
+    font-size: 27px;
 }
 
 a {
@@ -31,13 +34,8 @@ playFile.flush()
 
 print('Gathering headlines...')
 
-# establish biggest font size
-fontSize = 35
 # loop through countries
 for country in countries:
-    if country == 'World Bank':
-        driver.get('file://' + path)
-    fontSize = fontSize - .5
     googlenews.search(country)
     title, link = googlenews.result()[0]['title'], googlenews.result()[0]['link']
     # filter articles with "opinion" in the title
@@ -59,9 +57,9 @@ for country in countries:
         link = 'No Link'
     # add divider below organizations
     if countries.index(country) == 8:
-        playFile.write(("<h1 style='font-size: {2}px;'><a href={1} target='_blank'>{0}</a></h1><br><hr>").format(title, link, fontSize))
+        playFile.write(("<h1><a href={1} target='_blank'>{0}</a></h1><br><hr>").format(title, link))
     else:
-        playFile.write(("<h1 style='font-size: {2}px;'><a href={1} target='_blank'>{0}</a></h1>").format(title, link, fontSize))
+        playFile.write(("<h1><a href={1} target='_blank'>{0}</a></h1>").format(title, link))
     # clear and print progress
     googlenews.clear()
     os.system('clear')
