@@ -62,41 +62,47 @@ playFile.flush()
 print('Gathering headlines...')
 
 # loop through countries
-for i in range(len(countries)):
-    if i == 5:
-        driver.get('file://' + path)
-    googlenews.search(countries[i])
-    title, link = googlenews.result()[0]['title'], googlenews.result()[0]['link']
-    # filter articles with "opinion" in the title
-    if "opinion" in title or "Opinion" in title:
-        title, link = googlenews.result()[1]['title'], googlenews.result()[1]['link']
-    # if title is missing, manually get article title from link
-    if len(title) == 0:
-        try:
-            res = requests.get(link)
-            res.raise_for_status()
-            noStarchSoup = bs4.BeautifulSoup(res.text, 'html.parser')
-            headline = noStarchSoup.select('body h1')
-            title = headline[0].getText().strip()
-        except:
-            title = "No Title"
-    entityName = "<span style='color: #E7E375'>" + abbreviations[i] + "</span>: "
-    # if no link
-    if len(link) == 0:
-        link = 'No Link'
-    # add divider below organizations
-    if i < 8:
-        playFile.write(("<h1><a href={2} target='_blank'><div class='tooltip'><span class='tooltiptext'>{3}</span>{0}</div> {1}</a></h1>").format(entityName, title, link, countries[i]))
-    elif i == 8:
-        playFile.write(("<h1><a href={2} target='_blank'><div class='tooltip'><span class='tooltiptext'>{3}</span>{0}</div> {1}</a></h1><hr>").format(entityName, title, link, countries[i]))
-    else:
-        playFile.write(("<h1><a href={2} target='_blank'>{0}{1}</a></h1>").format(entityName, title, link))
-    # clear and print progress
-    googlenews.clear()
-    os.system('clear')
-    if i % 5 == 0: 
-        playFile.flush()
-        driver.refresh()
-    print(f"{i}/{len(countries)}")
+try:
+    for i in range(len(countries)):
+        if i == 5:
+            driver.get('file://' + path)
+        googlenews.search(countries[i])
+        title, link = googlenews.result()[0]['title'], googlenews.result()[0]['link']
+
+        # filter articles with "opinion" in the title
+        if "opinion" in title or "Opinion" in title:
+            title, link = googlenews.result()[1]['title'], googlenews.result()[1]['link']
+
+        # if title is missing, manually get article title from link
+        if len(title) == 0:
+            try:
+                res = requests.get(link)
+                res.raise_for_status()
+                noStarchSoup = bs4.BeautifulSoup(res.text, 'html.parser')
+                headline = noStarchSoup.select('body h1')
+                title = headline[0].getText().strip()
+            except:
+                title = "No Title"
+        entityName = "<span style='color: #E7E375'>" + abbreviations[i] + "</span>: "
+        entityLink = "https://news.google.com/search?q=" + countries[i].replace(' ', '%20')
+        # if no link
+        if len(link) == 0:
+            link = 'No Link'
+        # add divider below organizations
+        if i < 8:
+            playFile.write(("<h1><a href={4} target='_blank'><div class='tooltip'><span class='tooltiptext'>{3}</span>{0}</a></div> <a href={2} target='_blank'>{1}</a></h1>").format(entityName, title, link, countries[i], entityLink))
+        elif i == 8:
+            playFile.write(("<h1><a href={4} target='_blank'><div class='tooltip'><span class='tooltiptext'>{3}</span>{0}</a></div> <a href={2} target='_blank'>{1}</a></h1><hr>").format(entityName, title, link, countries[i], entityLink))
+        else:
+            playFile.write(("<h1><a href={3} target='_blank'>{0}</a><a href={2} target='_blank'>{1}</a></h1>").format(entityName, title, link, entityLink))
+        # clear and print progress
+        googlenews.clear()
+        os.system('clear')
+        if i % 5 == 0:
+            playFile.flush()
+            driver.refresh()
+        print(f"{i}/{len(countries)}")
+except Exception as err:
+    print('An exception happened: ' + str(err))
 playFile.close()
 print('Done.')
