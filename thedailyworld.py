@@ -7,9 +7,47 @@ from random import randint
 driver = webdriver.Chrome()
 path = os.path.dirname(os.path.realpath(__file__)) + '/thedailyworld.html'
 
-countries = ['United Nations', 'World Trade Organization', 'International Monetary Fund', 'World Bank', 'European Union', 'World Health Organization', 'National Endowment for Democracy', 'USAID', 'NATO', 'China', 'India', 'United States', 'Indonesia', 'Pakistan', 'Brazil', 'Nigeria', 'Bangladesh', 'Russia', 'Mexico', 'Japan', 'Ethiopia', 'Philippines', 'Egypt', 'Vietnam', 'Democratic Republic of Congo', 'Germany', 'Turkey', 'Iran', 'Thailand', 'United Kingdom', 'France', 'Italy', 'South Africa', 'Tanzania', 'Myanmar', 'Kenya', 'South Korea', 'Colombia', 'Spain']
-
-abbreviations = ['UN', 'WTO', 'IMF', 'World Bank', 'EU', 'WHO', 'NED', 'USAID', 'NATO', 'China', 'India', 'U.S.', 'Indonesia', 'Pakistan', 'Brazil', 'Nigeria', 'Bangladesh', 'Russia', 'Mexico', 'Japan', 'Ethiopia', 'Philippines', 'Egypt', 'Vietnam', 'DR Congo', 'Germany', 'Turkey', 'Iran', 'Thailand', 'U.K.', 'France', 'Italy', 'South Africa', 'Tanzania', 'Myanmar', 'Kenya', 'South Korea', 'Colombia', 'Spain']
+entities = {
+    'United Nations': {'abbr': 'UN','source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'World Trade Organization': {'abbr': 'WTO', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '}, 
+    'International Monetary Fund': {'abbr': 'IMF', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'World Bank': {'abbr': 'World Bank', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'European Union': {'abbr': 'EU', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'World Health Organization': {'abbr': 'WHO', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'National Endowment for Democracy': {'abbr': 'NED', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'USAID': {'abbr': 'USAID', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'NATO': {'abbr': 'NATO', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'China': {'abbr': 'China', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'India': {'abbr': 'India', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'United States': {'abbr': 'U.S.', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'Indonesia': {'abbr': 'Indonesia', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'Pakistan': {'abbr': 'Pakistan', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'Brazil': {'abbr': 'Brazil', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'Nigeria': {'abbr': 'Nigeria', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'Bangladesh': {'abbr': 'Bangladesh', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'Russia': {'abbr': 'Russia', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'Mexico': {'abbr': 'Mexico', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'Japan': {'abbr': 'Japan', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'Ethiopia': {'abbr': 'Ethiopia', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'Philippines': {'abbr': 'Philippines', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'Egypt': {'abbr': 'Egypt', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'Vietnam': {'abbr': 'Vietnam', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'Democratic Republic of Congo': {'abbr': 'DR Congo', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'Germany': {'abbr': 'Germany', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'Turkey': {'abbr': 'Turkey', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'Iran': {'abbr': 'Iran', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'Thailand': {'abbr': 'Thailand', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'United Kingdom': {'abbr': 'UK', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'France': {'abbr': 'France', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'Italy': {'abbr': 'Italy', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'South Africa': {'abbr': 'South Africa', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'Tanzania': {'abbr': 'Tanzania', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'Myanmar': {'abbr': 'Myanmar', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'Kenya': {'abbr': 'Kenya', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'South Korea': {'abbr': 'South Korea', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'Colombia': {'abbr': 'Colombia', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+    'Spain': {'abbr': 'Spain', 'source': 'https://news.google.com/search?q=', 'location': 'article > h3 > a '},
+}
 
 playFile = open(path, 'w')
 
@@ -65,23 +103,24 @@ playFile.flush()
 
 print('Gathering headlines...')
 
-# loop through countries
+# loop through entities
 try:
-    for i in range(len(countries)):
+    i = 0
+    for key, values in entities.items():
         time.sleep(randint(0, 2))
         if i == 3:
             driver.get('file://' + path)
-        searchTerm = 'https://news.google.com/search?q=' + countries[i]
+        searchTerm = values['source'] + key
         res = requests.get(searchTerm)
         res.raise_for_status()
         noStarchSoup = bs4.BeautifulSoup(res.text, 'html.parser')
-        headline = noStarchSoup.select('article > h3 > a')
-        title = headline[0].getText()
+        headline = noStarchSoup.select(values['location'])
+        title = headline[0].text
         link = 'https://news.google.com' + (headline[0].attrs['href']).lstrip('.')
 
         # filter articles with "opinion" in the title
         if "opinion" in title or "Opinion" in title:
-            title = headline[1].getText()
+            title = headline[1].text
             link = 'https://news.google.com' + (headline[1].attrs['href']).lstrip('.')
 
         # if title is missing, manually get article title from link
@@ -91,11 +130,11 @@ try:
                 res.raise_for_status()
                 noStarchSoup = bs4.BeautifulSoup(res.text, 'html.parser')
                 headline = noStarchSoup.select('body h1')
-                title = headline[0].getText().strip()
+                title = headline[0].text.strip()
             except:
                 title = "No Title"
-        entityName = "<span class='entityName'>" + abbreviations[i] + "</span>: "
-        entityLink = "https://news.google.com/search?q=" + countries[i].replace(' ', '%20')
+        entityName = "<span class='entityName'>" + values['abbr'] + "</span>: "
+        entityLink = values['source'] + key.replace(' ', '%20')
         # if no link
         if len(link) == 0:
             link = 'No Link'
@@ -107,12 +146,12 @@ try:
         else:
             playFile.write(("<h1><a href={3} target='_blank'>{0}</a><a href={2} target='_blank'>{1}</a></h1>").format(entityName, title, link, entityLink))
         # clear and print progress
-        googlenews.clear()
         os.system('clear')
-        if i % 3 == 0:
+        if i == 0 or i % 3 == 0:
             playFile.flush()
             driver.refresh()
         print(f"{i+1}/{len(countries)}")
+        i += 1
 except Exception as err:
     print('An exception happened: ' + str(err))
 playFile.close()
