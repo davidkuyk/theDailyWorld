@@ -15,7 +15,7 @@ playFile = open(path, 'w')
 
 playFile.write('''<style>
 html {
-    background-color: #383838
+    background-color: #b5b5b5
 }
 
 h1 {
@@ -24,7 +24,7 @@ h1 {
 }
 
 a {
-    color: #dadada;
+    color: #333333;
     text-decoration: none;
 }
 
@@ -83,7 +83,7 @@ try:
                 title = headline[0].getText().strip()
             except:
                 title = "No Title"
-        entityName = "<span style='color: #E7E375'>" + abbreviations[i] + "</span>: "
+        entityName = "<span style='color: #020a77'>" + abbreviations[i] + "</span>: "
         entityLink = "https://news.google.com/search?q=" + countries[i].replace(' ', '%20')
         # if no link
         if len(link) == 0:
