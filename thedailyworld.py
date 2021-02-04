@@ -1,11 +1,11 @@
-from GoogleNews import GoogleNews
 import requests, bs4
 import os
 from selenium import webdriver
+import time
+from random import randint
     
 driver = webdriver.Chrome()
 path = os.path.dirname(os.path.realpath(__file__)) + '/thedailyworld.html'
-googlenews = GoogleNews('en')
 
 countries = ['United Nations', 'World Trade Organization', 'International Monetary Fund', 'World Bank', 'European Union', 'World Health Organization', 'National Endowment for Democracy', 'USAID', 'NATO', 'China', 'India', 'United States', 'Indonesia', 'Pakistan', 'Brazil', 'Nigeria', 'Bangladesh', 'Russia', 'Mexico', 'Japan', 'Ethiopia', 'Philippines', 'Egypt', 'Vietnam', 'Democratic Republic of Congo', 'Germany', 'Turkey', 'Iran', 'Thailand', 'United Kingdom', 'France', 'Italy', 'South Africa', 'Tanzania', 'Myanmar', 'Kenya', 'South Korea', 'Colombia', 'Spain']
 
@@ -55,6 +55,10 @@ a {
   visibility: visible;
 }
 
+.entityName{
+    color: #020a77
+}
+
 </style>''')
 
 playFile.flush()
@@ -64,14 +68,21 @@ print('Gathering headlines...')
 # loop through countries
 try:
     for i in range(len(countries)):
-        if i == 5:
+        time.sleep(randint(0, 2))
+        if i == 3:
             driver.get('file://' + path)
-        googlenews.search(countries[i])
-        title, link = googlenews.result()[0]['title'], googlenews.result()[0]['link']
+        searchTerm = 'https://news.google.com/search?q=' + countries[i]
+        res = requests.get(searchTerm)
+        res.raise_for_status()
+        noStarchSoup = bs4.BeautifulSoup(res.text, 'html.parser')
+        headline = noStarchSoup.select('article > h3 > a')
+        title = headline[0].getText()
+        link = 'https://news.google.com' + (headline[0].attrs['href']).lstrip('.')
 
         # filter articles with "opinion" in the title
         if "opinion" in title or "Opinion" in title:
-            title, link = googlenews.result()[1]['title'], googlenews.result()[1]['link']
+            title = headline[1].getText()
+            link = 'https://news.google.com' + (headline[1].attrs['href']).lstrip('.')
 
         # if title is missing, manually get article title from link
         if len(title) == 0:
@@ -83,7 +94,7 @@ try:
                 title = headline[0].getText().strip()
             except:
                 title = "No Title"
-        entityName = "<span style='color: #020a77'>" + abbreviations[i] + "</span>: "
+        entityName = "<span class='entityName'>" + abbreviations[i] + "</span>: "
         entityLink = "https://news.google.com/search?q=" + countries[i].replace(' ', '%20')
         # if no link
         if len(link) == 0:
@@ -98,11 +109,12 @@ try:
         # clear and print progress
         googlenews.clear()
         os.system('clear')
-        if i % 5 == 0:
+        if i % 3 == 0:
             playFile.flush()
             driver.refresh()
-        print(f"{i}/{len(countries)}")
+        print(f"{i+1}/{len(countries)}")
 except Exception as err:
     print('An exception happened: ' + str(err))
 playFile.close()
+os.system('clear')
 print('Done.')
