@@ -22,7 +22,7 @@ entities = {
     'United States': {'abbr': 'U.S.', 'parent': 'https://news.google.com', 'source': 'https://news.google.com/search?q=U.S.', 'location': 'article > h3 > a'},
     'Indonesia': {'abbr': 'Indonesia', 'parent': 'https://news.google.com', 'source': 'https://news.google.com/search?q=Indonesia', 'location': 'article > h3 > a'},
     'Pakistan': {'abbr': 'Pakistan', 'parent': 'https://news.google.com', 'source': 'https://news.google.com/search?q=Pakistan', 'location': 'article > h3 > a'},
-    'Brazil': {'abbr': 'Brazil', 'parent': 'https://news.google.com', 'source': 'https://news.google.com/search?q=Brazil', 'location': 'article > h3 > a'},
+    'Brazil': {'abbr': 'Brazil', 'parent': '', 'source': 'https://www1.folha.uol.com.br/internacional/en/', 'location': '.c-main-headline__url'},
     'Nigeria': {'abbr': 'Nigeria', 'parent': 'https://news.google.com', 'source': 'https://news.google.com/search?q=Nigeria', 'location': 'article > h3 > a'},
     'Bangladesh': {'abbr': 'Bangladesh', 'parent': 'https://news.google.com', 'source': 'https://news.google.com/search?q=Bangladesh', 'location': 'article > h3 > a'},
     'Russia': {'abbr': 'Russia', 'parent': 'https://news.google.com', 'source': 'https://news.google.com/search?q=Russia', 'location': 'article > h3 > a'},
