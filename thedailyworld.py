@@ -115,12 +115,16 @@ for key, values in entities.items():
     res.raise_for_status()
     noStarchSoup = bs4.BeautifulSoup(res.text, 'html.parser')
     headline = noStarchSoup.select(values['location'])
-    title = headline[0].text
+    title = headline[0].text[:80]
+    if len(title) == 80:
+        title += '...'
     link = values['parent'] + (headline[0].attrs['href']).lstrip('.')
 
     # filter articles with "opinion" in the title
     if "opinion" in title or "Opinion" in title:
-        title = headline[1].text
+        title = headline[1].text[:80]
+        if len(title) == 80:
+            title += '...'
         link = values['parent'] + (headline[1].attrs['href']).lstrip('.')
 
     # if title is missing, manually get article title from link
@@ -130,7 +134,9 @@ for key, values in entities.items():
             res.raise_for_status()
             noStarchSoup = bs4.BeautifulSoup(res.text, 'html.parser')
             headline = noStarchSoup.select('body h1')
-            title = headline[0].text.strip()
+            title = headline[0].text[:80].strip()
+            if len(title) == 80:
+                title += '...'
         except:
             title = "No Title"
     entityName = "<span class='entityName'>" + values['abbr'] + "</span>: "
