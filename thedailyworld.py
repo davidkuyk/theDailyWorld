@@ -61,6 +61,19 @@ h1 {
     font-size: 27px;
 }
 
+.title {
+    text-align: center;
+    font-size: 37px;
+    color: #333333;
+}
+
+h3 {
+    margin: 5px;
+    font-size: 16px;
+    text-align: center;
+    color: #333333;
+}
+
 a {
     color: #333333;
     text-decoration: none;
@@ -97,7 +110,16 @@ a {
     color: #020a77
 }
 
-</style>''')
+</style>
+
+<h1 class="title">The Daily World</h1>
+<h3 id="todaysDate"></h3>
+
+<script type="text/javascript">
+    var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];       
+    var today = new Date();    
+    document.getElementById("todaysDate").innerHTML = months[today.getMonth()] + " " + today.getDate()+ ", " + today.getFullYear();
+    </script>''')
 
 playFile.flush()
 
