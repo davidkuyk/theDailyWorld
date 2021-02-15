@@ -68,12 +68,12 @@ html {
 
 h1 {
     margin: 10px;
-    font-size: 27px;
+    font-size: 20px;
 }
 
 .title {
     text-align: center;
-    font-size: 37px;
+    font-size: 30px;
     color: #333333;
 }
 
