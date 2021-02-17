@@ -1,5 +1,7 @@
 # theDailyWorld
-## A minimalistic Python world news program.
+## A minimalistic Javascript world news app.
+
+Feb 17, 2021: I've converted the app from a simple Python file to a fullstack Javascript web app.
 
 The inspiration behind this app is my frustration with the clutter on every news site. I've always wanted a news app that simply shows you the headlines, one per topic.
 
