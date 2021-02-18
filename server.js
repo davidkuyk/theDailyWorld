@@ -2,6 +2,7 @@
 require('dotenv').config();
 const express = require('express');
 const fs = require('fs');
+const PORT = process.env.PORT || '8080'
 const app = express();
 const http = require('http').createServer(app);
 const puppeteer = require('puppeteer');
@@ -146,8 +147,10 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/views/index.html");
 });
 
-http.listen(process.env.PORT || 3000, () => {
-  console.log('Listening on port ' + process.env.PORT);
+app.set("port", PORT);
+
+http.listen(PORT, () => {
+  console.log('Listening on port ' + PORT);
 });
 
 theBigOne();
