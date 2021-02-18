@@ -82,21 +82,19 @@ function theBigOne () {
     window.onload = timedRefresh(10000);
   </script>
   `
-  
+
   let source;
   let loc;
   let parent;
   let abbr;
   let finalHeadline;
 
-  
-  
   async function run () {
     try {
       var stream = fs.createWriteStream(__dirname + "/views/index.html", {flags:'a'});
       stream.write(header);
       console.log('Opening browser...')
-      const browser = await puppeteer.launch({headless: true});
+      const browser = await puppeteer.launch({headless: true, args: ['--no-sandbox'] });
       const page = await browser.newPage();
       await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36');
       
