@@ -149,7 +149,7 @@ app.get("/", (req, res) => {
 
 app.set("port", PORT);
 
-http.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log('Listening on port ' + PORT);
 });
 
