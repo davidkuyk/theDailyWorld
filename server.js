@@ -16,8 +16,10 @@ let source;
 let loc;
 let parent;
 let abbr;
+let lastUpdated;
+const oneday = 60 * 60 * 24;
 
-async function mongoConnect (option, name = '', title = '', link = '', res = '') {
+async function mongoConnect (option, name = '', title = '', link = '', res = '', lastUpdated = '') {
   const client = await MongoClient.connect(URI, { useUnifiedTopology: true });
   const db = client.db('theDailyWorld');
   const collection = db.collection('headlines');
@@ -28,7 +30,7 @@ async function mongoConnect (option, name = '', title = '', link = '', res = '')
     return result;
   }
   if (option == 'save') {
-    collection.findOneAndUpdate({name: name}, {$set: {title: title, link: link}}, {new: true}, function(updatedDoc) {
+    collection.findOneAndUpdate({name: name}, {$set: {title: title, link: link, lastUpdated: lastUpdated}}, {new: true}, function(updatedDoc) {
       console.log('Updated the ' + name + ' headline')
       });
   }
@@ -49,28 +51,33 @@ async function scrape () {
     console.log("Scraping...");
     let browser = await puppeteer.launch({headless: true, args: ['--no-sandbox'] });
     let results = await mongoConnect('find');
+    let now = Math.round((new Date()).getTime() / 1000);
+    // THE FOR LOOP
     for(let i=0; i < results.length; i++) {
-      try {
-        let page = await browser.newPage();
-        await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36');
-        name = results[i]['name'] // from db
-        abbr = results[i]['abbr'] // from db
-        parent = results[i]['parent'] // from db
-        source = results[i]['source'] // from db
-        loc = results[i]['location'] // from db
-        await page.goto(source);
-        await page.waitForSelector(loc);
-        await page.exposeFunction('mongoConnect', mongoConnect);
-        await page.evaluate(async (name, abbr, parent, source, loc) => {
-          let headline = document.querySelector(loc);
-          let title = headline.innerText.replace(/^\s+|\s+$/g, '');
-          let link = parent + headline.getAttribute('href').replace(/^\., ''/);
-          await mongoConnect('save', name, title, link)
-        }, name, abbr, parent, source, loc);
-        await page.waitForTimeout(Math.floor(Math.random() * 4000 + 1000));
-      } catch (err) {
-        console.log(err.stack);
-    };
+      if (now - results[i]['lastUpdated'] > oneday) {
+        try {
+          let page = await browser.newPage();
+          await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36');
+          name = results[i]['name'] // from db
+          abbr = results[i]['abbr'] // from db
+          parent = results[i]['parent'] // from db
+          source = results[i]['source'] // from db
+          loc = results[i]['location'] // from db
+          lastUpdated = now
+          await page.goto(source);
+          await page.waitForSelector(loc);
+          await page.exposeFunction('mongoConnect', mongoConnect);
+          await page.evaluate(async (name, abbr, parent, source, loc, lastUpdated) => {
+            let headline = document.querySelector(loc);
+            let title = headline.innerText.replace(/^\s+|\s+$/g, '');
+            let link = parent + headline.getAttribute('href').replace(/^\., ''/);
+            await mongoConnect('save', name, title, link, lastUpdated)
+          }, name, abbr, parent, source, loc, lastUpdated);
+          await page.waitForTimeout(Math.floor(Math.random() * 4000 + 1000));
+        } catch (err) {
+          console.log(err.stack);
+      };
+      } 
   }
   //mongoConnect('close')
 } catch (e) {
