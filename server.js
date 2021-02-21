@@ -49,7 +49,7 @@ async function mongoConnect (option, name = '', title = '', link = '', res = '')
 
 async function scrape () {
   try {
-    console.log("Scraping...");
+    console.log("Scraping.");
     let browser = await puppeteer.launch({headless: true, args: ['--no-sandbox'] });
     let results = await mongoConnect('find');
     let now = Math.round((new Date()).getTime() / 1000);
