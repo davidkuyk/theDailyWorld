@@ -30,7 +30,6 @@ async function mongoConnect (option, name = '', title = '', link = '', res = '')
     return result;
   }
   if (option == 'save') {
-    console.log('New headline for ' + name + ' saved!')
     lastUpdated = Math.round((new Date()).getTime() / 1000);
     collection.findOneAndUpdate({name: name}, {$set: {title: title, link: link, lastUpdated: lastUpdated}}, {new: true}, function(updatedDoc) {
       console.log('Updated the ' + name + ' headline')
@@ -56,7 +55,7 @@ async function scrape () {
     let now = Math.round((new Date()).getTime() / 1000);
     // THE FOR LOOP
     for(let i=0; i < results.length; i++) {
-      if (now - results[i]['lastUpdated'] > oneday) {
+      if (now - parseInt(results[i]['lastUpdated']) > oneday) {
         try {
           let page = await browser.newPage();
           await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36');
