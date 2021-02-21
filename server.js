@@ -74,6 +74,8 @@ async function scrape () {
             await mongoConnect('save', name, title, link)
           }, name, abbr, parent, source, loc);
           await page.waitForTimeout(Math.floor(Math.random() * 4000 + 1000));
+          await page.goto('about:blank');
+          await page.close();
         } catch (err) {
           console.log(err.stack);
       };
