@@ -19,7 +19,7 @@ let abbr;
 let lastUpdated;
 const oneday = 60 * 60 * 24;
 
-async function mongoConnect (option, name = '', title = '', link = '', res = '', lastUpdated = '') {
+async function mongoConnect (option, name = '', title = '', link = '', res = '') {
   const client = await MongoClient.connect(URI, { useUnifiedTopology: true });
   const db = client.db('theDailyWorld');
   const collection = db.collection('headlines');
@@ -30,6 +30,8 @@ async function mongoConnect (option, name = '', title = '', link = '', res = '',
     return result;
   }
   if (option == 'save') {
+    console.log('New headline for ' + name + ' saved!')
+    lastUpdated = Math.round((new Date()).getTime() / 1000);
     collection.findOneAndUpdate({name: name}, {$set: {title: title, link: link, lastUpdated: lastUpdated}}, {new: true}, function(updatedDoc) {
       console.log('Updated the ' + name + ' headline')
       });
@@ -63,16 +65,15 @@ async function scrape () {
           parent = results[i]['parent'] // from db
           source = results[i]['source'] // from db
           loc = results[i]['location'] // from db
-          lastUpdated = now
           await page.goto(source);
           await page.waitForSelector(loc);
           await page.exposeFunction('mongoConnect', mongoConnect);
-          await page.evaluate(async (name, abbr, parent, source, loc, lastUpdated) => {
+          await page.evaluate(async (name, abbr, parent, source, loc) => {
             let headline = document.querySelector(loc);
             let title = headline.innerText.replace(/^\s+|\s+$/g, '');
             let link = parent + headline.getAttribute('href').replace(/^\., ''/);
-            await mongoConnect('save', name, title, link, lastUpdated)
-          }, name, abbr, parent, source, loc, lastUpdated);
+            await mongoConnect('save', name, title, link)
+          }, name, abbr, parent, source, loc);
           await page.waitForTimeout(Math.floor(Math.random() * 4000 + 1000));
         } catch (err) {
           console.log(err.stack);
