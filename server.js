@@ -10,13 +10,13 @@ const MongoClient = require('mongodb').MongoClient;
 const URI = process.env.MONGO_URI;
 const ejs = require('ejs');
 
-let client;
 let name;
 let source;
 let loc;
 let parent;
 let abbr;
 let lastUpdated;
+let running = false;
 const oneday = 60 * 60 * 24;
 
 async function mongoConnect (option, name = '', title = '', link = '', res = '') {
@@ -25,7 +25,6 @@ async function mongoConnect (option, name = '', title = '', link = '', res = '')
   const collection = db.collection('headlines');
 
   if (option == 'find') {
-    console.log('Collecting database...')
     let result = await collection.find({}).toArray();
     return result;
   }
@@ -42,14 +41,14 @@ async function mongoConnect (option, name = '', title = '', link = '', res = '')
 
   if (option == 'close') {
     client.close();
-    console.log('Done updating.')
     console.log('Database connection closed.')
   }
 }
 
 async function scrape () {
   try {
-    console.log("Scraping.");
+    running = true;
+    console.log("Checking for updates...");
     let browser = await puppeteer.launch({headless: true, args: ['--no-sandbox'] });
     let results = await mongoConnect('find');
     let now = Math.round((new Date()).getTime() / 1000);
@@ -78,10 +77,11 @@ async function scrape () {
           await page.close();
         } catch (err) {
           console.log(err.stack);
-      };
-      } 
+        };
+      }
   }
-  //mongoConnect('close')
+  console.log('Headlines are up-to-date.')
+  running = false;
 } catch (e) {
   console.log(e.stack);
 }
@@ -99,9 +99,10 @@ app.use(express.urlencoded({ extended: true }));
 
 app.set("view engine", "ejs");
 
-// https://closebrace.com/tutorials/2017-03-02/the-dead-simple-step-by-step-guide-for-front-end-developers-to-getting-up-and-running-with-nodejs-express-and-mongodb
 app.get("/", async (req, res) => {
-  scrape();
+  if (running === false) {
+    scrape();
+  }
   const headlinelist = await mongoConnect('render');
   res.render("index", {headlinelist: headlinelist});
 });
