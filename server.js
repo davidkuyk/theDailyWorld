@@ -1,8 +1,5 @@
-// find all documents and save to array: http://mongodb.github.io/node-mongodb-native/2.2/quick-start/quick-start/
-
 require('dotenv').config();
 const express = require('express');
-const fs = require('fs');
 const PORT = process.env.PORT || '8080'
 const app = express();
 const puppeteer = require('puppeteer');
