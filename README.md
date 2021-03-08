@@ -9,6 +9,7 @@ A minimalistic Javascript world news app.
 - [theDailyWorld](#thedailyworld)
   - [Table of Contents](#table-of-contents)
   - [Background](#background)
+  - [Future Feature Ideas](#future-feature-ideas)
   - [Installation](#installation)
   - [Scaffolding](#scaffolding)
   - [Bugs](#bugs)
@@ -23,9 +24,19 @@ The inspiration behind The Daily World was my frustration with the clutter on ev
 
 I'm also fascinated by the idea of a news site that gives you news from every country in one glance. So that's my eventual goal. 
 
-As of now, I've added large, influential organizations in a section at the top of the page, and then the countries in order of largest to smallest population.
+As of now, I've added large, influential organizations in a section at the top of the page, and then the top 50 countries in order of largest to smallest population. On each page load, the server checks to see when each headline was last updated. If it has been over 24 hours since the last update, the server will fetch a new headline from the source and save it to the database. The new headlines will appear on page reload.
 
-In the future, I'd like to include the world's largest, most influential corporations, as well.
+You can hover over each entity name to see the full name (if abbreviated). Clicking on each entity name will take you to the source page so you can read more stories about the entity. Clicking on the headline will open the story in a new tab.
+
+## Future Feature Ideas
+
+* Add more countries
+* Add section for the world's largest, most influential corporations
+* Add "our philosophy" tooltip at top on page
+* Add map picture in country tooltip
+* Add "new version available" button
+* Diversify news sources
+* Generate another article with button click
 
 ## Installation
 
