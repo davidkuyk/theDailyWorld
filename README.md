@@ -1,7 +1,7 @@
 # theDailyWorld
 
-[![GitHub version](https://img.shields.io/badge/version-v1.0.0-blue.svg)](https://github.com/yilber/readme-boilerplate)
-[![License](https://img.shields.io/github/license/yilber/readme-boilerplate.svg)](https://github.com/Yilber/readme-boilerplate/blob/master/LICENSE)
+[![GitHub version](https://img.shields.io/badge/version-v1.0.0-blue.svg)](https://github.com/davidkuyk/theDailyWorld)
+[![License](https://img.shields.io/github/license/davidkuyk/theDailyWorld.svg)](https://github.com/davidkuyk/theDailyWorld/blob/main/LICENSE)
 
 A minimalistic Javascript world news app.
 ## Table of Contents
@@ -57,10 +57,10 @@ If you have questions, feature requests or a bug you want to report, please clic
 
 ## Author
 
-* [**David Kuyk**](https://davidkuyk.github.io/) [![GitHub followers](https://img.shields.io/github/followers/yilber.svg?style=social)](https://github.com/yilber)
+* [**David Kuyk**](https://davidkuyk.github.io/)
 
 ## License
 
-Copyright (c) 2021 Yilber Mejia.
+Copyright (c) 2021 David Kuyk.
 
-Usage is provided under the MIT License. See [LICENSE](https://github.com/Yilber/readme-boilerplate/blob/master/LICENSE) for the full details.
+Usage is provided under the MIT License. See [LICENSE](https://github.com/davidkuyk/theDailyWorld/blob/main/LICENSE) for the full details.
