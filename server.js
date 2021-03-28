@@ -57,6 +57,7 @@ async function scrape () {
           updated = true;
           let page = await browser.newPage();
           await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36');
+          icon = results[i]['icon'] // from db
           name = results[i]['name'] // from db
           abbr = results[i]['abbr'] // from db
           parent = results[i]['parent'] // from db
