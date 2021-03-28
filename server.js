@@ -49,10 +49,12 @@ async function scrape () {
     let browser = await puppeteer.launch({headless: true, args: ['--no-sandbox'] });
     let results = await mongoConnect('find');
     let now = Math.round((new Date()).getTime() / 1000);
+    let updated = false;
     // THE FOR LOOP
     for(let i=0; i < results.length; i++) {
       if (now - parseInt(results[i]['lastUpdated']) > oneday) {
         try {
+          updated = true;
           let page = await browser.newPage();
           await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36');
           name = results[i]['name'] // from db
@@ -76,6 +78,12 @@ async function scrape () {
           console.log(err.stack);
         };
       }
+  }
+  if (updated === true) {
+    let confirmBox = confirm('New headlines are available. Click OK to reload page.')
+    if (confirmBox === true) {
+      window.location.reload();
+    }
   }
   console.log('Headlines are up-to-date.')
   running = false;
