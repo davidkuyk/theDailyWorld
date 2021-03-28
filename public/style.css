@@ -28,11 +28,16 @@ h1 {
   padding-left: 10px;
 }
 
+#todaysDate {
+  font-size: 14px;
+}
+
 .title {
   text-align: center;
   font-family: 'Cinzel', serif;
   font-size: 50px;
   color: rgb(16, 42, 66);
+  margin-bottom: 0;
 }
 
 .headline {
@@ -61,6 +66,9 @@ h3 {
 
 #subtitle {
   font-family: 'Cinzel', serif;
+  font-style: italic;
+  text-align: center;
+  margin: auto;
 }
 
 a {
