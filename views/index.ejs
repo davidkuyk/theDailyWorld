@@ -9,10 +9,10 @@
     <h1 class='title'>The Daily World</h1>
     <h3 id="todaysDate"></h3>
 
-    
     <% for(let i=0; i < headlinelist.length; i++) { %>
-        <h1><a href=<%= headlinelist[i].source %> target="_blank"><div class="tooltip"><span class="tooltiptext"><%= headlinelist[i].name %></span><span class="entityName"><%= headlinelist[i].abbr %></span>:</a></div> <a href=<%= headlinelist[i].link %> target="_blank"><%= headlinelist[i].title %></a></h1>
+        <div class='headline'><h1><a href=<%= headlinelist[i].source %> target="_blank"><div class="tooltip"><span class="tooltiptext"><%= headlinelist[i].name %></span><span class="entityName"><%= headlinelist[i].abbr %></span>:</a></div> <a href=<%= headlinelist[i].link %> target="_blank"><%= headlinelist[i].title %></a></h1></div>
     <% } %>
+
     <script type="text/javascript">
         var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];       
         var today = new Date();    
