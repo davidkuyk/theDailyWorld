@@ -46,23 +46,18 @@ h1 {
   flex-wrap: wrap;
   column-count: 3;
   width: 95vw;
+  margin: auto;
 }
 
 .headline {
   display: flex;
   margin: auto;
-  width: 33vw;
+  width: 30vw;
   height: 4vw;
   overflow: hidden;
   border: 1px solid rgb(179, 179, 179);
   border-radius: 5px;
   margin-bottom: 10px;
-}
-
-@media screen and (min-width: 800px) {
-  .headline {
-    width: 60vw;
-  }
 }
 
 h3 {
