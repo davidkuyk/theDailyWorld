@@ -12,11 +12,11 @@
       <h3 id="subtitle">World News at a Glance</h3>
       <h3 id="todaysDate"></h3>
     </div>
-
-    <% for(let i=0; i < headlinelist.length; i++) { %>
-        <div class='headline'><span class='icon'><%= headlinelist[i].icon %></span><h1><a href=<%= headlinelist[i].source %> target="_blank"><div class="tooltip"><span class="tooltiptext"><%= headlinelist[i].name %></span><span class="entityName"><%= headlinelist[i].abbr %></span>:</a></div> <a href=<%= headlinelist[i].link %> target="_blank"><%= headlinelist[i].title %></a></h1></div>
-    <% } %>
-
+    <div class='headlinecontainer'>
+      <% for(let i=0; i < headlinelist.length; i++) { %>
+          <div class='headline'><span class='icon'><%= headlinelist[i].icon %></span><h1><a href=<%= headlinelist[i].source %> target="_blank"><div class="tooltip"><span class="tooltiptext"><%= headlinelist[i].name %></span><span class="entityName"><%= headlinelist[i].abbr %></span>:</a></div> <a href=<%= headlinelist[i].link %> target="_blank"><%= headlinelist[i].title %></a></h1></div>
+      <% } %>
+    </div>
     <script type="text/javascript">
         var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];       
         var today = new Date();    

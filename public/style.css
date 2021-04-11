@@ -40,10 +40,20 @@ h1 {
   margin-bottom: 0;
 }
 
+.headlinecontainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  column-count: 3;
+  width: 95vw;
+}
+
 .headline {
   display: flex;
   margin: auto;
-  width: 95vw;
+  width: 33vw;
+  height: 4vw;
+  overflow: hidden;
   border: 1px solid rgb(179, 179, 179);
   border-radius: 5px;
   margin-bottom: 10px;
