@@ -31,7 +31,7 @@ You can hover over each entity name to see the full name (if abbreviated). Click
 
 ## Future Feature Ideas
 
-- Add more countries
+- Finish adding all countries
 - Add section for the world's largest, most influential corporations
 - Add "our philosophy" tooltip at top on page
 - Add map picture in country tooltip
